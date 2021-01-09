@@ -1,3 +1,4 @@
+# install.packages( "tidyverse" )
 library( tidyverse )
 
 # data from https://www.kaggle.com/kimjihoo/coronavirusdataset
