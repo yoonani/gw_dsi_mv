@@ -6,8 +6,8 @@ library( readxl )
 
 gw0 <- read_csv("./data/gw_1820_5age_pops.csv")
 
-Sys.getlocale()
-default_locale()
+Sys.getlocale()       # R의 기본 지역 증명정보(locale) 
+default_locale()      # from readr, tidyverse의 기본 locale
 
 gw1 <- read_csv("./data/gw_1820_5age_pops.csv", 
                 locale = locale("ko", encoding = "euc-kr"))
@@ -18,33 +18,42 @@ gw2 <- read_excel("./data/gw_1820_5age_pops.xlsx", skip=3)
 gw2
 
 
-# Step #1
+# Step #1 : 행정구역을 지역명과 행정기관 코드로 나누기
 gw1$행정구역
+
+# 여는 괄호를 기준으로 행정구역을 두 부분으로 나눔
+# 전체 결과의 형태는 list
 str_split(gw1$행정구역, "\\(", n=2)
 
-# Step #2
+
+# Step #2 : 결과를 2개의 열을 갖는 데이터 프레임으로 작성하기
 do.call( rbind, str_split(gw1$행정구역, "\\(", n=2) )
+
 tmp <- as.data.frame( do.call( rbind, str_split(gw1$행정구역, "\\(", n=2) ) )
 
-# Step #3 : 열 이름 변경
+
+# Step #3 : 각 열의 이름을 region, region_cd 로 변경하기
 names(tmp) <- c("region", "region_cd")
 
-# Step #4 :공백제거
+
+# Step #4 : 첫번째 열(지역명)의 문자열 뒤 공백 제거하기
 tmp$region[1:5]
 str_length( tmp$region )[1:5]
 tmp$region <- trimws(tmp$region)
 str_length( tmp$region )[1:5]
 
-# Step #5 : 행정기관코드의 닫는 괄호 제거
+
+# Step #5 : 두번째 열(행정기관코드)의 닫는 괄호(“)”) 제거하기
 tmp$region_cd[1:5]
 tmp$region_cd <- str_replace(tmp$region_cd, "\\)$", "")
 tmp$region_cd[1:5]
 
-# Step #6 : tibble로 변경
+
+# Step #6 : 기존 데이터와 열결합을 하고 tibble로 변경하기
 gw1
 gw1 <- as_tibble( cbind( tmp, gw1 ) )
 
-# Step #7 : 사용하지 않을 열 제거
+# Step #7 : 행정구역 열 제거
 gw1 %>%
   select(-행정구역) -> gw1
 

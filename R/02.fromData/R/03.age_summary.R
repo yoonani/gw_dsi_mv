@@ -7,9 +7,12 @@ library( tidyverse )
 # 데이터 불러오기
 gw_1719_5age_pops <- readRDS( "./data/gw_1719_5age_pops.rds" )
 
+
+
 # 열 이름을 연령대 변수(vars)의 값(pops)이 되도록 long format으로 변환
 gw_1719_5age_pops %>%
   pivot_longer(-(1:2), names_to="vars", values_to="pops")
+
 
 # vars 변수를 년도(year)와 연령대(agecat) 변수로 분리
 gw_1719_5age_pops %>%
@@ -21,14 +24,17 @@ gw_1719_5age_pops %>%
   pivot_longer(-(1:2), names_to="vars", values_to="pops") %>%
   separate(vars, c("year", "agecat")) -> gw_1719_5age_pops_long
 
+
+
 # prop.table( ) 함수를 이용하여 비율 구하기
 gw_1719_5age_pops_long %>%
   group_by(region, year) %>%
   summarise( 
     agecat = agecat,
-    props = prop.table(pops)
-  ) %>%
+    props = prop.table(pops) ) %>%
   ungroup()
+
+
 
 # 기존 데이터와 비율 데이터 조인
 gw_1719_5age_pops_long %>%

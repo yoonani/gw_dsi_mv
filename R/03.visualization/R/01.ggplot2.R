@@ -57,17 +57,21 @@ gw_ag %>%
 gw_ag %>%
   filter( agecat == "g3o65" ) %>%
   ggplot( aes( year, props*100 ) ) +
-    geom_point( aes( shape = region, color = region ), show.legend = FALSE )  +
+    geom_point( aes( shape = region, color = region ), 
+                show.legend = FALSE )  +
     geom_line( aes( color=region ) ) +
-    geom_text( aes( label=round(props*100, 1)), size=2, show.legend = FALSE, nudge_x = 0.2 )
+    geom_text( aes( label=round(props*100, 1)), size=2, 
+               show.legend = FALSE, nudge_x = 0.2 )
 
 # scale
 gw_ag %>% 
   filter(agecat == "g3o65") %>%  
   ggplot( aes( year, props*100 ) ) +
-    geom_point( aes( shape = region, color = region ), show.legend = FALSE )+
+    geom_point( aes( shape = region, color = region ), 
+                show.legend = FALSE )+
     geom_line( aes( color = region ) ) +
-    geom_text( aes( label=round(props*100, 1) ), size=2, show.legend = FALSE, nudge_x = 0.2 ) +
+    geom_text( aes( label=round(props*100, 1) ), size=2, 
+               show.legend = FALSE, nudge_x = 0.2 ) +
     scale_x_continuous( "년도", breaks = 2008:2019 ) +
     scale_shape_manual( values=1:18 )
 
@@ -76,9 +80,11 @@ gw_ag %>%
 gw_ag %>% 
   filter(agecat == "g3o65") %>%  
   ggplot( aes( year, props*100 ) ) +
-    geom_point( aes( shape = region, color = region ), show.legend = FALSE )+
+    geom_point( aes( shape = region, color = region ), 
+                show.legend = FALSE )+
     geom_line( aes( color = region ) ) +
-    geom_text( aes( label=round(props*100, 1) ), size=2, show.legend = FALSE, nudge_x = 0.2 ) +
+    geom_text( aes( label=round(props*100, 1) ), size=2, 
+               show.legend = FALSE, nudge_x = 0.2 ) +
     scale_x_continuous( "년도", breaks = 2008:2019 ) +
     scale_shape_manual( values=1:18 ) +
     labs(y="비율(%)", color="시군")
@@ -87,9 +93,11 @@ gw_ag %>%
 gw_ag %>% 
   filter(agecat == "g3o65") %>%  
   ggplot( aes( year, props*100 ) ) +
-    geom_point( aes( shape = region, color = region ), show.legend = FALSE )+
+    geom_point( aes( shape = region, color = region ), 
+                show.legend = FALSE )+
     geom_line( aes( color = region ) ) +
-    geom_text( aes( label=round(props*100, 1) ), size=2, show.legend = FALSE, nudge_x = 0.2 ) +
+    geom_text( aes( label=round(props*100, 1) ), size=2, 
+               show.legend = FALSE, nudge_x = 0.2 ) +
     scale_x_continuous( "년도", breaks = 2008:2019 ) +
     scale_shape_manual( values=1:18 ) +
     labs(y="비율(%)", color="시군") +
@@ -100,16 +108,19 @@ gw_ag %>%
 gw_ag %>% 
   filter(agecat == "g3o65") %>%  
   ggplot( aes( year, props*100 ) ) +
-    geom_point( aes( shape = region, color = region ), show.legend = FALSE )+
+    geom_point( aes( shape = region, color = region ), 
+                show.legend = FALSE )+
     geom_line( aes( color = region ) ) +
-    geom_text( aes( label=round(props*100, 1) ), size=2, show.legend = FALSE, nudge_x = 0.2 ) +
+    geom_text( aes( label=round(props*100, 1) ), size=2, 
+               show.legend = FALSE, nudge_x = 0.2 ) +
     scale_x_continuous( "년도", breaks = 2008:2019 ) +
     scale_shape_manual( values=1:18 ) +
     labs(y="비율(%)", color="시군") +
     theme_minimal() +
     theme(
       plot.background = element_rect(fill="#cad9db"),
-      axis.line = element_line(size = 0.5, linetype = "solid", colour = "black"),
+      axis.line = element_line(size = 0.5, linetype = "solid", 
+                               colour = "black"),
       panel.background = element_rect(fill="#f5f3f0", color=NA),
       panel.grid.minor.x = element_blank(),
       panel.grid.minor.y = element_blank(),
@@ -125,16 +136,19 @@ gw_ag %>%
   mutate( prop100 = props*100) %>%
   mutate( region_title = str_replace(region, "강원도 ", "")  ) %>%
   ggplot( aes( year, prop100 ) ) +
-    geom_point( aes( shape = region_title, color = region_title ), show.legend = FALSE )  +
+    geom_point( aes( shape = region_title, color = region_title ), 
+                show.legend = FALSE )  +
     geom_line( aes( color=region_title ) ) +
-    geom_text( aes( label=round(prop100, 1)), size=2, show.legend = FALSE, nudge_x = 0.2 ) +
+    geom_text( aes( label=round(prop100, 1)), size=2, 
+               show.legend = FALSE, nudge_x = 0.2 ) +
     scale_x_continuous( "년도", breaks = 2008:2019 ) +
     scale_shape_manual( values=1:18 ) +
     labs(y="비율(%)", color="시군") +
     theme_minimal() +
     theme(
       plot.background = element_rect(fill="#cad9db"),
-      axis.line = element_line(size = 0.5, linetype = "solid", colour = "black"),
+      axis.line = element_line(size = 0.5, linetype = "solid", 
+                               colour = "black"),
       panel.background = element_rect(fill="#f5f3f0", color=NA),
       panel.grid.minor.x = element_blank(),
       panel.grid.minor.y = element_blank(),
@@ -150,14 +164,16 @@ gw_ag %>%
   ggplot( aes( year, prop100 ) ) +
     geom_point( aes( color = region_title ), show.legend = FALSE )  +
     geom_line( aes( color=region_title ), show.legend = FALSE ) +
-    geom_text( aes( label=round(prop100, 1)), size=2, show.legend = FALSE, nudge_x = 0.2 ) +
+    geom_text( aes( label=round(prop100, 1)), size=2, 
+               show.legend = FALSE, nudge_x = 0.2 ) +
     scale_x_continuous( "년도", breaks = 2008:2019 ) +
     scale_shape_manual( values=1:18 ) +
     labs(y="비율(%)", color="시군") +
     theme_minimal() +
     theme(
       plot.background = element_rect(fill="#cad9db"),
-      axis.line = element_line(size = 0.5, linetype = "solid", colour = "black"),
+      axis.line = element_line(size = 0.5, linetype = "solid", 
+                               colour = "black"),
       panel.background = element_rect(fill="#f5f3f0", color=NA),
       panel.grid.minor.x = element_blank(),
       panel.grid.minor.y = element_blank(),
@@ -173,14 +189,16 @@ gw_ag %>%
   ggplot( aes( year, prop100 ) ) +
   geom_point( aes( color = region_title ), show.legend = FALSE )  +
   geom_line( aes( color=region_title ), show.legend = FALSE ) +
-  geom_text( aes( label=round(prop100, 1)), size=2, show.legend = FALSE, nudge_x = 0.2 ) +
+  geom_text( aes( label=round(prop100, 1)), size=2, 
+             show.legend = FALSE, nudge_x = 0.2 ) +
   scale_x_continuous( "년도", breaks = 2008:2019 ) +
   scale_shape_manual( values=1:18 ) +
   labs(y="비율(%)", color="시군") +
   theme_minimal() +
   theme(
     plot.background = element_rect(fill="#cad9db"),
-    axis.line = element_line(size = 0.5, linetype = "solid", colour = "black"),
+    axis.line = element_line(size = 0.5, linetype = "solid", 
+                             colour = "black"),
     panel.background = element_rect(fill="#f5f3f0", color=NA),
     panel.grid.minor.x = element_blank(),
     panel.grid.minor.y = element_blank(),

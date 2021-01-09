@@ -1,5 +1,7 @@
+# install.packages("ggthemes")
 library( tidyverse )
 library( XML )
+library( ggthemes )
 library( leaflet )
 
 # 요청 URL과 구하고자 하는 요청변수
@@ -172,7 +174,6 @@ ta_gw_sgg
 
 # 그래프 작성 : 막대도표( geom_bar )
 # ggthemes 패키지를 이용하여 테마 확장
-library(ggthemes)
 
 ta_gw_sgg %>%
   ggplot() +
