@@ -36,6 +36,7 @@ names(gw1719)
 # 5세 단위 연령대를 “14세 이하, 15~64세, 65세 이상”의 연령대로 재구조화
 # 각 년도별로 3가지 연령대를 갖는 데이터 프레임 생성
 # apply( 데이터프레임, (1 또는 2), 함수명 )
+names( gw1719 )
 gw_1719_5age_pops <- data.frame( 
   region = gw1719$region,
   region_cd = gw1719$region_cd,

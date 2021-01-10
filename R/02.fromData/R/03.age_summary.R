@@ -32,33 +32,15 @@ gw_1719_5age_pops_long %>%
   summarise( 
     agecat = agecat,
     props = prop.table(pops) ) %>%
-  ungroup()
-
+  ungroup() -> gw_1719_5age_pops_long_prop
 
 
 # 기존 데이터와 비율 데이터 조인
 gw_1719_5age_pops_long %>%
-  left_join( gw_1719_5age_pops_long %>%
-               group_by(region, year) %>%
-               summarise( 
-                 agecat = agecat,
-                 props = prop.table(pops) ) %>%
-               ungroup() )
-
-# 기존 변수 대체
-gw_1719_5age_pops_long %>%
-  left_join( gw_1719_5age_pops_long %>%
-               group_by(region, year) %>%
-               summarise( 
-                 agecat = agecat,
-                 props = prop.table(pops) ) %>%
-               ungroup() ) -> gw_1719_5age_pops_long
+  left_join( gw_1719_5age_pops_long_prop ) -> gw_1719_5age_pops_long
 
 
 gw_1719_5age_pops_long
-
-
-
 
 
 # 위와 같이 정리한 데이터를 다음에 저장하였습니다.
