@@ -1,8 +1,6 @@
 # install.packages("ggthemes")
 library( tidyverse )
 library( XML )
-library( ggthemes )
-library( leaflet )
 
 # 요청 URL과 구하고자 하는 요청변수
 reqURL <- "http://apis.data.go.kr/B552061/AccidentDeath/getRestTrafficAccidentDeath"
@@ -33,7 +31,6 @@ xpathApply(rn, "//totalCount", xmlValue)
 
 # 전체 응답수 : 만일 이 수가 현재 페이지당 데이터수보다 크면, 또 다시 호출
 numRows <- xpathApply(rn, "//totalCount", xmlValue)
-numRows
 
 # 결과를 데이터 프레임을 저장하기
 taDeath <- xmlToDataFrame( nodes = getNodeSet(rn, "//item") )
@@ -61,6 +58,19 @@ taDeath %>%
     nd = sum(dth_dnv_cnt),
     ni = sum(injpsn_cnt)
   ) 
+
+
+# factor 생성
+# 숫자로 된 요일에 Label 붙히기
+class( taDeath$occrrnc_day_cd )
+table( taDeath$occrrnc_day_cd )
+
+factor( taDeath$occrrnc_day_cd )
+
+factor( taDeath$occrrnc_day_cd,
+        levels = 1:7,
+        labels = c("일", "월", "화", "수", "목", "금", "토") )
+
 
 # 요일 이름표 붙혀주기
 taDeath %>%
@@ -94,6 +104,8 @@ gwTAcode <- tibble(
 
 gwTAcode
 
+saveRDS(gwTAcode, "./data/gwTAcode.rds")
+
 
 # 요청 함수 만들기
 setReqURL <- function(key, year=2019, sido=1400, sigun=1402, numRows=50, page=1) {
@@ -112,6 +124,7 @@ setReqURL( myKey, sigun=1401 )
 data.frame( matrix( vector("character"), ncol=ncol(taDeath), nrow=0) )
 
 # 기존 결과물의 열 이름을 가진 빈 데이터 프레임 생성
+names(taDeath)
 result <- setNames(
             data.frame(
               matrix( vector("character"), ncol=ncol(taDeath), nrow=0)
@@ -157,57 +170,6 @@ View( result )
 
 # 2019년 강원도 교통사고 사망자수 자료 저장
 saveRDS(result, "./data/2019_GW_ta_deaths.rds")
-
-
-# 시군별 사망자수와 부상자수
-# gwTAcode
-result %>%
-  mutate(dth_dnv_cnt = as.numeric(dth_dnv_cnt)) %>%
-  mutate(injpsn_cnt = as.numeric(injpsn_cnt)) %>%
-  group_by(occrrnc_lc_sgg_cd) %>%
-  summarise(
-    n = n(),
-    nd = sum(dth_dnv_cnt),
-    ni = sum(injpsn_cnt)
-  ) %>%
-  left_join( gwTAcode, by=c("occrrnc_lc_sgg_cd"="SGcode") ) %>%
-  select( SGname, n, nd, ni) -> ta_gw_sgg
-
-View( ta_gw_sgg )
-
-# 그래프 작성 : 막대도표( geom_bar )
-# ggthemes 패키지를 이용하여 테마 확장
-
-ta_gw_sgg %>%
-  ggplot() +
-    geom_bar( aes(x=SGname, y=n), stat="identity") +
-    theme_wsj()
-
-# 시군별 사망자수와 부상자수
-# 사망자수와 부상자수를 관찰변수로 즉, long format 변환
-ta_gw_sgg %>%
-  pivot_longer( cols=c(nd, ni), 
-                names_to = "type", values_to = "noi" )
-
-# 그래프 작성
-ta_gw_sgg %>%
-  pivot_longer( cols=c(nd, ni), 
-                names_to = "type", values_to = "noi" ) %>%
-  ggplot( aes(x=SGname, y=noi) ) +
-    geom_bar( aes(fill=type), stat="identity", position="dodge") +
-    scale_fill_manual("유형", 
-                      breaks = c("nd", "ni"),
-                      labels = c("사망자수", "부상자수"),
-                      values = c("#6e695c", "#f0ca0e")) +
-    theme_wsj() +
-    theme(
-      legend.position = "bottom",
-      legend.title = element_text(size=12),
-      legend.key.size = unit(0.3, "cm")
-    )
-
-  
-
 
 
 # 아래 코드는 각자 한번 실행해 보세요 :)

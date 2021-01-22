@@ -41,6 +41,7 @@ head( tmp, n=2 )
 
 # 명사만 추출하기
 spch_noun <- extractNoun( spch )
+head(spch_noun, 2)
 
 # reshape2 의 melt 는 list를 전달받으면 melt.list( )를 호출하고
 # 결과로 데이터 프레임 구성

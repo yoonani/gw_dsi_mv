@@ -5,12 +5,11 @@ library( leaflet )
 
 
 # 사용할 데이터
-gwTAcode <- readRDS("./data/gwTAcode.rds")
 result <- readRDS("./data/2019_GW_ta_deaths.rds")
 
 
 
-# 시군별로 사망자수와 부상자수 시각화
+# 시군별 사망자수와 부상자수
 # gwTAcode
 result %>%
   mutate(dth_dnv_cnt = as.numeric(dth_dnv_cnt)) %>%

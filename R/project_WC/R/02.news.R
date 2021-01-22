@@ -56,6 +56,8 @@ news_wk <- str_replace_all(news_wk, "가운데", " ")
 news_wk <- str_replace_all(news_wk, "들이", " ")
 news_wk <- str_replace_all(news_wk, "일보", " ")
 news_wk <- str_replace_all(news_wk, "올해", " ")
+news_wk <- str_replace_all(news_wk, "본보", " ")
+news_wk <- str_replace_all(news_wk, "보도", " ")
 
 news_wk <- str_replace_all(news_wk, "(강원도민일보|강원일보|강원도|강원|도내|기자|년생|내년|가운데|들이|일보|올해)", " ")
 
