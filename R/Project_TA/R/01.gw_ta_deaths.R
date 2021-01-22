@@ -28,6 +28,7 @@ rn <- xmlRoot(response)
 rn
 
 # 특정노드의 값 가져오기
+xpathApply(rn, "//resultMsg", xmlValue)
 xpathApply(rn, "//totalCount", xmlValue)
 
 # 전체 응답수 : 만일 이 수가 현재 페이지당 데이터수보다 크면, 또 다시 호출
@@ -36,7 +37,7 @@ numRows
 
 # 결과를 데이터 프레임을 저장하기
 taDeath <- xmlToDataFrame( nodes = getNodeSet(rn, "//item") )
-taDeath
+View( taDeath )
 dim( taDeath )
 
 
@@ -59,7 +60,7 @@ taDeath %>%
     n = n(),
     nd = sum(dth_dnv_cnt),
     ni = sum(injpsn_cnt)
-  )
+  ) 
 
 # 요일 이름표 붙혀주기
 taDeath %>%
@@ -70,12 +71,12 @@ taDeath %>%
     n = n(),
     nd = sum(dth_dnv_cnt),
     ni = sum(injpsn_cnt)
-  ) %>%
+  ) %>% 
   mutate( wday = factor( occrrnc_day_cd,
                          levels = 1:7, 
                          labels=c("일", "월", "화", "수", "목", "금", "토")
                   )
-        ) %>%
+        ) %>% 
   select(wday, n, nd, ni)
 
 
@@ -124,6 +125,7 @@ str( result )
 req <- setReqURL(key = myKey, sigun = 1401)
 response <- xmlTreeParse(req, useInternalNodes = TRUE, encoding="UTF-8")
 rn <- xmlRoot(response)
+xpathApply(rn, "//totalCount", xmlValue)
 result %>%
   bind_rows( xmlToDataFrame( nodes = getNodeSet(rn, "//item") ) ) -> result
 dim(result)
@@ -131,11 +133,12 @@ dim(result)
 req <- setReqURL(key = myKey, sigun = 1402)
 response <- xmlTreeParse(req, useInternalNodes = TRUE, encoding="UTF-8")
 rn <- xmlRoot(response)
+xpathApply(rn, "//totalCount", xmlValue)
 result %>%
   bind_rows( xmlToDataFrame( nodes = getNodeSet(rn, "//item") ) ) -> result
 dim(result)
-result
 
+result
 
 
 # 반복문을 사용하여 각 시군의 데이터를 요청하고 결과를 저장하기
@@ -150,7 +153,7 @@ for(i in 1:nrow(gwTAcode)) {
 }
 
 dim( result )
-head( result )
+View( result )
 
 # 2019년 강원도 교통사고 사망자수 자료 저장
 saveRDS(result, "./data/2019_GW_ta_deaths.rds")
@@ -170,7 +173,7 @@ result %>%
   left_join( gwTAcode, by=c("occrrnc_lc_sgg_cd"="SGcode") ) %>%
   select( SGname, n, nd, ni) -> ta_gw_sgg
 
-ta_gw_sgg
+View( ta_gw_sgg )
 
 # 그래프 작성 : 막대도표( geom_bar )
 # ggthemes 패키지를 이용하여 테마 확장

@@ -1,17 +1,4 @@
-# visit : https://jdk.java.net/15/
-# 사전에 Java가 설치되어 있어야 합니다.
-
-# Java 사용을 위한 설정
-Sys.getenv("JAVA_HOME")
 Sys.setenv(JAVA_HOME="C:/java/jdk-15.0.1")
-Sys.getenv("JAVA_HOME")
-
-# 사전에 필요한 패키지
-# github에서 설치를 위한 devtools와 Java 환경을 구현하는 rJava 패키지
-# install.packages( c("devtools", "rJava") )
-
-library(rJava)
-devtools::install_github('haven-jeon/KoNLP', INSTALL_opts = "--no-multiarch")
 
 library( KoNLP )
 useNIADic()
@@ -26,7 +13,8 @@ library( wordcloud2 )
 
 
 
-# 대통령기록관 연설문 : https://www.pa.go.kr/research/contents/speech/index.jsp
+# 대통령기록관 연설문
+# https://www.pa.go.kr/research/contents/speech/index.jsp
 # 파일을 줄별로 읽어 벡터로 저장
 
 # readr
@@ -38,12 +26,12 @@ tail( spch, 2 )
 
 # 품사 구분하기 : KoNLP 사용
 # https://github.com/haven-jeon/KoNLP/blob/master/etcs/KoNLP-API.md
-SimplePos09("동해물과 백두산이 마르고 닳도록")
-SimplePos22("동해물과 백두산이 마르고 닳도록")
-class( SimplePos09("동해물과 백두산이 마르고 닳도록") )
+SimplePos09( spch[1] )
+SimplePos22( spch[1] )
+class( SimplePos09(  spch[1]  ) )
 
-SimplePos09("동해물과 백두산이 마르고 닳도록")$백두산이
-SimplePos09("동해물과 백두산이 마르고 닳도록")[[2]]
+SimplePos09(  spch[1] )$사랑하는
+SimplePos09(  spch[1] )[[2]]
 
 # 연설문 품사별로 구분하기
 tmp <- SimplePos09( spch )
@@ -98,10 +86,3 @@ spch_noun_df_c2 %>%
 # 워드클라우드 만들기
 spch_noun_df_c2 %>%
   wordcloud2(size=0.5)
-
-
-# 상위 15개 단어
-spch_noun_df %>%
-  count( value, sort=TRUE ) %>% 
-  filter( str_length(value) > 1 ) %>%
-  head( 15 ) -> spch_top_15

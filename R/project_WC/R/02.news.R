@@ -1,6 +1,6 @@
 # bigkinds
 # 문제 // 강원일보, 강원도민일보
-# Sys.setenv(JAVA_HOME="C:/java/jdk-15.0.1")
+Sys.setenv(JAVA_HOME="C:/java/jdk-15.0.1")
 
 # 패키지 연결
 library( KoNLP )
@@ -21,30 +21,22 @@ news_read <- news$본문
 
 # 한글과 띄어쓰기 외 문자 제거하기
 news_read[1]
+str_replace_all(news_read[1], "[:punct:]", " " )
 str_replace_all(news_read[1], "[^가-힣 ]+", "" )
 
 
 # 분석 변수로 저장
-news_wk <- str_replace_all(news_read, "[^가-힣 ]+", "" )
+news_wk <- str_replace_all(news_read, "[:punct:]", " " )
+news_wk <- str_replace_all(news_wk, "[^가-힣 ]+", "" )
+head( news_wk, 3 )
 
-
-# 명사 추출하기 : 에러 발생
-news_wk %>%
-  extractNoun() %>%
-  melt() %>%
-  as_tibble()
-
-# 본문 중 알 수 없는 글자로 인해 발생
-# 해당 기사는 제거
-
-news_wk[301] <- NA
-
+# 명사 추출하기
 news_wk %>%
   extractNoun() %>%
   melt() %>%
   as_tibble() -> news_df
 
-news_df
+View( news_df )
 
 # 글자수 2개 이상의 단어의 출현 횟수 구하기
 news_df %>%
@@ -72,7 +64,6 @@ news_wk %>%
   extractNoun() %>%
   melt() %>%
   as_tibble() -> news_df
-
 
 # 많이 나오는 단어 확인
 news_df %>%
