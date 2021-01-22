@@ -10,6 +10,8 @@ library( readxl )
 ta <- read_excel( "./data/taas_gw_2019_ta.xlsx" )
 
 names( ta )
+View( ta )
+ta$사고유형
 
 # 시 부분 제거
 ta %>%

@@ -34,12 +34,28 @@ write.csv(gw_pops_emd3_bjd_cd, "./data/gw_pops_emd_2020.csv", row.names = FALSE)
 gw_hj_emd <- st_read("./data/gw_hj_emd", "TL_SCCO_EMD", options="ENCODING=EUC-KR" )
 gw_hj_emd
 
+# 읍면동 인구
 gw_hj_emd %>%
   left_join( gw_pops_emd3_bjd_cd, by="EMD_CD" ) %>%
-  mutate( op = g3o65 / total ) %>% select(op) %>%
+  ggplot() +
+  geom_sf( aes(fill = total) ) +
+  scale_fill_gradient2("인구", low="#C6FFDD", mid="#FBD786", high="#f7797d", na.value=NA) +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank(),
+    axis.text =  element_blank()
+  )
+
+
+
+# 고령화율 : g3o65
+# 14세 이하 : g1u14
+gw_hj_emd %>%
+  left_join( gw_pops_emd3_bjd_cd, by="EMD_CD" ) %>%
+  mutate( op = g1u14 / total ) %>% select(op) %>%
   ggplot() +
     geom_sf( aes(fill = op) ) +
-    scale_fill_gradient2("고령화율", low="#1E9600", mid="#FFF200", high="#FF0000", midpoint = 0.2, na.value=NA) +
+    scale_fill_gradient2("14세 이하 비율", low="#f7797d", mid="#FBD786", high="#C6FFDD", na.value=NA) +
     theme_minimal() +
     theme(
       panel.grid = element_blank(),
