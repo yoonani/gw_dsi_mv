@@ -4,7 +4,7 @@ library( XML )
 
 # 요청 URL과 구하고자 하는 요청변수
 reqURL <- "http://apis.data.go.kr/B552061/AccidentDeath/getRestTrafficAccidentDeath"
-myKey <- "RWFEucfLuyiglprc5BWByBmKAOyIxzS4qvUhO7ZGoi%2FAomTDwdDCUE1oGNAYWZBJ8TgD99XVfdfOAhco0Db6Lw%3D%3D"
+myKey <- "YOUR_KEY"
 param <- c("ServiceKey", "searchYear", "siDo", "guGun", "numOfRows", "pageNo")
 values <- c(myKey, 2019, 1400, 1402, 50, 1)
 
